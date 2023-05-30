@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">VOLOAndroidTask</string>
+    <string name="connect_to_drone">Connect to Drone</string>
+    <string name="switch_controller">Switch Controller</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="connect_drone">Connect Drone</string>
+    <string name="enter_password">Enter password</string>
+    <string name="connect">Connect</string>
+    <string name="no">No</string>
+</resources>

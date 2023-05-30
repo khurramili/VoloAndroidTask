@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="mainViewModel"
+            type="com.volo.voloandroidtask.ui.main.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.main.MainFragment">
+
+        <ImageView
+            android:id="@+id/droneIV"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/drone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/droneLocationTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/droneIV"
+            app:layout_constraintStart_toStartOf="@+id/droneIV"
+            app:layout_constraintTop_toBottomOf="@+id/droneIV"
+            android:layout_marginTop="10dp"/>
+
+        <ImageView
+            android:id="@+id/connectWifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@drawable/baseline_wifi_tethering_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/roomSizeTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/switchController"
+            app:layout_constraintStart_toEndOf="@+id/droneConnectTV"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/droneConnectTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="@string/connect_to_drone"
+            app:layout_constraintBottom_toBottomOf="@+id/connectWifi"
+            app:layout_constraintStart_toEndOf="@id/connectWifi"
+            app:layout_constraintTop_toTopOf="@id/connectWifi" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchController"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="@string/switch_controller"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/startStopButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="@string/start"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/manualControllers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageButton
+                android:id="@+id/left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/baseline_arrow_back_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:onClick="@{() -> mainViewModel.moveLeft()}"/>
+
+            <ImageButton
+                android:id="@+id/right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/baseline_arrow_forward_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:onClick="@{() -> mainViewModel.moveRight()}"
+                app:layout_constraintStart_toEndOf="@+id/left" />
+
+
+            <ImageButton
+                android:id="@+id/up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/baseline_arrow_upward_24"
+                app:layout_constraintBottom_toTopOf="@+id/down"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:onClick="@{() -> mainViewModel.moveUp()}"/>
+
+            <ImageButton
+                android:id="@+id/down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/baseline_arrow_downward_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:onClick="@{() -> mainViewModel.moveDown()}"/>
+
+
+            <ImageButton
+                android:id="@+id/rotateRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/baseline_rotate_right_24"
+                app:layout_constraintBottom_toTopOf="@+id/left"
+                app:layout_constraintStart_toStartOf="parent"
+                android:onClick="@{() -> mainViewModel.rotateRight()}"/>
+
+            <ImageButton
+                android:id="@+id/rotateLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/baseline_rotate_left_24"
+                app:layout_constraintBottom_toTopOf="@+id/right"
+                app:layout_constraintStart_toEndOf="@+id/rotateRight"
+                android:onClick="@{() -> mainViewModel.rotateLeft()}"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
