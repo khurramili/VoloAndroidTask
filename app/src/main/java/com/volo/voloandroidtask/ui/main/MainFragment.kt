@@ -2,9 +2,11 @@ package com.volo.voloandroidtask.ui.main
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -19,9 +21,7 @@ import com.volo.voloandroidtask.utils.CollisionSound
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainFragment : Fragment(), MovementListener {
-
-    private lateinit var gyroscopeManager: GyroscopeManager
+class MainFragment : Fragment(), MovementListener{
 
     companion object {
         fun newInstance() = MainFragment()
@@ -29,14 +29,10 @@ class MainFragment : Fragment(), MovementListener {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel: MainViewModel by viewModels()
     private lateinit var viewModelConnectDrone: ConnectDroneViewModel
-
-    private var posX: Float = 0f
-    private var posY: Float = 0f
-
     private lateinit var collisionSound: CollisionSound
+    private lateinit var gyroscopeManager: GyroscopeManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,10 +74,19 @@ class MainFragment : Fragment(), MovementListener {
         binding.switchController.setOnClickListener {
             switchController()
         }
+
+        viewModel.isCollided.observe(viewLifecycleOwner) {
+            if (it) {
+                collisionSound.start()
+            } else {
+                collisionSound.stop()
+            }
+        }
     }
 
     private fun initialize() {
         collisionSound = CollisionSound(requireContext(), R.raw.alert_sound)
+        binding.mainViewModel = viewModel
         viewModel.movementListener = this
     }
 
@@ -91,8 +96,6 @@ class MainFragment : Fragment(), MovementListener {
                 gyroscopeManager.stopListening()
             binding.manualControllers.visibility = View.VISIBLE
         } else {
-            if (::gyroscopeManager.isInitialized)
-                gyroscopeManager.startListening()
             binding.manualControllers.visibility = View.GONE
         }
     }
@@ -109,7 +112,18 @@ class MainFragment : Fragment(), MovementListener {
             if (isConnected) {
                 binding.droneConnectTV.text = "Drone Connected"
                 viewModel.isDroneConnected.value = true
-                viewModel.fetchInfo()
+
+                // Assuming Room is equals to our room size
+                val roomWidth = resources.displayMetrics.widthPixels
+                val roomHeight = resources.displayMetrics.heightPixels
+
+                //assuming Drone location according to ImageView of drone in screen
+                viewModel.intializeRoom(roomWidth, roomHeight)
+                viewModel.initalizeDrone(
+                    binding.droneIV.x,
+                    binding.droneIV.y,
+                    binding.droneIV.z
+                )
                 viewModel.isDroneConnected.observe(viewLifecycleOwner) {
                     gyroscopeManager = GyroscopeManager(requireContext(), this)
                     binding.startStopButton.visibility = View.VISIBLE
@@ -124,54 +138,28 @@ class MainFragment : Fragment(), MovementListener {
 
     private fun handleDroneMovement() {
         viewModel.drone.observe(viewLifecycleOwner) {
-            Log.e("Drone", it.toString())
+//            Log.e("Drone", it.toString())
             binding.droneLocationTV.text = it.toString()
+            binding.droneIV.x = it?.x!!
+            binding.droneIV.y = it.y
+            binding.droneIV.z = it.z
         }
     }
 
     override fun updatedAxis(x: Float, y: Float, z: Float) {
-//        viewModel.moveDrone(x, y, z)
-
-        // Update the position
-        posX = binding.droneIV.x + (x * 200) //
-        posY = binding.droneIV.y + (y * 100)
-
-        // Check collision with screen boundaries
-        val screenWidth = resources.displayMetrics.widthPixels
-        val screenHeight = resources.displayMetrics.heightPixels
-
-        if (posX < 0) {
-            posX = 0f
-            // Handle collision with left screen boundary
-            collisionSound.start()
-
-            Log.e("Movement","Left")
-        } else if (posX > screenWidth - binding.droneIV.width) {
-            posX = (screenWidth - binding.droneIV.width).toFloat()
-            // Handle collision with right screen boundary
-            collisionSound.start()
-            Log.e("Movement","Right")
-        }
-
-        if (posY < 0) {
-            posY = 0f
-            // Handle collision with top screen boundary
-            collisionSound.start()
-            Log.e("Movement","up")
-        } else if (posY > screenHeight - binding.droneIV.height) {
-            posY = (screenHeight - binding.droneIV.height).toFloat()
-            // Handle collision with bottom screen boundary
-            collisionSound.start()
-            Log.e("Movement","Down")
-
-        }
-
-        // Update the ImageView position
-        binding.droneIV.x = posX
-        binding.droneIV.y = posY
-
+        viewModel.moveDrone(x, y, z)
         val angleInDegrees = Math.toDegrees(z.toDouble())
-        binding.droneIV.rotation = angleInDegrees.toFloat()
+        binding.droneIV.animate().rotation(angleInDegrees.toFloat()).setDuration(200).start()
+
     }
 
+    override fun rotateRight(z: Float) {
+        val angleInDegrees = Math.toDegrees(z.toDouble())
+        binding.droneIV.animate().rotation(angleInDegrees.toFloat()).setDuration(200).start()
+    }
+
+    override fun rotateLeft(z: Float) {
+        val angleInDegrees = Math.toDegrees(z.toDouble())
+        binding.droneIV.animate().rotation(angleInDegrees.toFloat()).setDuration(200).start()
+    }
 }
