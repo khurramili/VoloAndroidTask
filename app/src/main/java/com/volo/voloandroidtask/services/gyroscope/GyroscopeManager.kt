@@ -46,8 +46,6 @@ class GyroscopeManager(context: Context, private var movementListener: MovementL
     }
 
     private fun handleGyroscopeData( x: Float,y: Float, z: Float) {
-        // Determine the movement based on gyroscope data and invoke corresponding methods in the main activity
-        // Example implementation assuming the main activity is named MainActivity
         movementListener.updatedAxis(x,y,z)
     }
 }

@@ -1,14 +1,14 @@
 package com.volo.voloandroidtask.ui.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.volo.voloandroidtask.services.drone.Drone
-import com.volo.voloandroidtask.services.room.Room
+import com.volo.voloandroidtask.model.Drone
+import com.volo.voloandroidtask.model.Room
 import com.volo.voloandroidtask.services.drone.DroneRepository
 import com.volo.voloandroidtask.services.gyroscope.MovementListener
 import com.volo.voloandroidtask.services.room.RoomRepository
+import com.volo.voloandroidtask.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -43,9 +43,9 @@ class MainViewModel @Inject constructor(private val droneRepository: DroneReposi
         val drone: Drone? = drone.value
 
         // Update the position
-        posX = drone!!.x + (x * 200)
-        posY = drone.y + (y * 100)
-        posZ = drone.z + (z * 100)
+        posX = drone!!.x + (x * Constants.thresholdX)
+        posY = drone.y + (y * Constants.thresholdY)
+        posZ = drone.z + (z * Constants.thresholdZ)
 
 
         if (checkCollision(posX, posY)) {
@@ -114,9 +114,9 @@ class MainViewModel @Inject constructor(private val droneRepository: DroneReposi
     }
 
     private fun checkCollision(posX: Float, posY: Float): Boolean {
-        return if (posX < 100 || posX > (room!!.width - 200)) {
+        return if (posX < 100 || posX > (room!!.width - Constants.collisionAvoidDistance)) {
             true
-        } else posY < 100 || posY > (room!!.height - 200)
+        } else posY < 100 || posY > (room!!.height - Constants.collisionAvoidDistance)
     }
 
 }

@@ -59,6 +59,7 @@ class MainFragment : Fragment(), MovementListener{
             viewModel.isDroneFlying.value = viewModel.isDroneFlying.value == false
         }
 
+        //Start listening  the values of gyroscope sensor when drone started to fly
         viewModel.isDroneFlying.observe(viewLifecycleOwner) {
             if (it) {
                 binding.startStopButton.text = "Stop"
@@ -75,15 +76,19 @@ class MainFragment : Fragment(), MovementListener{
             switchController()
         }
 
+        //get a notification from view model on collision
         viewModel.isCollided.observe(viewLifecycleOwner) {
             if (it) {
                 collisionSound.start()
+                binding.alertView.visibility = View.VISIBLE
             } else {
                 collisionSound.stop()
+                binding.alertView.visibility = View.GONE
             }
         }
     }
 
+    //Initialize the viewModel before starting the process
     private fun initialize() {
         collisionSound = CollisionSound(requireContext(), R.raw.alert_sound)
         binding.mainViewModel = viewModel
@@ -124,6 +129,8 @@ class MainFragment : Fragment(), MovementListener{
                     binding.droneIV.y,
                     binding.droneIV.z
                 )
+
+                //update the UI when Drone Connected and initialize the sensor
                 viewModel.isDroneConnected.observe(viewLifecycleOwner) {
                     gyroscopeManager = GyroscopeManager(requireContext(), this)
                     binding.startStopButton.visibility = View.VISIBLE
@@ -137,8 +144,9 @@ class MainFragment : Fragment(), MovementListener{
     }
 
     private fun handleDroneMovement() {
+
+        //Update the UI when drone value change from listener
         viewModel.drone.observe(viewLifecycleOwner) {
-//            Log.e("Drone", it.toString())
             binding.droneLocationTV.text = it.toString()
             binding.droneIV.x = it?.x!!
             binding.droneIV.y = it.y
@@ -147,6 +155,7 @@ class MainFragment : Fragment(), MovementListener{
     }
 
     override fun updatedAxis(x: Float, y: Float, z: Float) {
+        //send updated values from sensor to the drone instance
         viewModel.moveDrone(x, y, z)
         val angleInDegrees = Math.toDegrees(z.toDouble())
         binding.droneIV.animate().rotation(angleInDegrees.toFloat()).setDuration(200).start()

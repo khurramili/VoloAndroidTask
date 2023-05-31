@@ -14,17 +14,14 @@ class ConnectDrone(private val context: Context, private val viewModel: ConnectD
         val inflater = LayoutInflater.from(context)
         val binding = ConnectDroneDialogBinding.inflate(inflater)
 
-        val passwordEditText = binding.passwordEditText
-        val positiveButton = binding.connectDrone
-        val negativeButton = binding.notConnect
 
-        positiveButton.setOnClickListener {
-            val password = passwordEditText.text.toString()
+        binding.connectDrone.setOnClickListener {
+            val password = binding.passwordEditText.text.toString()
             viewModel.validatePassword(password)
             dialog.dismiss()
         }
 
-        negativeButton.setOnClickListener {
+        binding.notConnect.setOnClickListener {
             dialog.dismiss()
         }
 
