@@ -36,7 +36,7 @@ class MainViewModel @Inject constructor(private val droneSensor: DroneSensor) :
     fun moveDrone(x: Float, y: Float, z: Float) {
         val drone: Drone? = drone.value
 
-        // Update the position
+        // Translate sensor data
         val posX = drone!!.x + (x * Constants.thresholdX)
         val posY = drone.y + (y * Constants.thresholdY)
         val posZ = drone.z + (z * Constants.thresholdZ)
