@@ -22,15 +22,4 @@ class AppModuleTest {
         assertNotNull(droneRepository)
     }
 
-    @Test
-    fun provideRoomRepository_shouldReturnNonNullInstance() {
-        // Arrange
-        val appModule = AppModule
-
-        // Act
-        val roomRepository = appModule.provideRoomRepository()
-
-        // Assert
-        assertNotNull(roomRepository)
-    }
 }

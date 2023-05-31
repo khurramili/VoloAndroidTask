@@ -1,7 +1,6 @@
 package com.volo.voloandroidtask.di
 
-import com.volo.voloandroidtask.services.drone.DroneRepository
-import com.volo.voloandroidtask.services.room.RoomRepository
+import com.volo.voloandroidtask.sensors.drone.DroneSensors
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,13 +12,8 @@ import javax.inject.Singleton
 object AppModule {
     @Singleton
     @Provides
-    fun provideDroneRepository(): DroneRepository {
-        return DroneRepository()
+    fun provideDroneRepository(): DroneSensors {
+        return DroneSensors()
     }
 
-    @Singleton
-    @Provides
-    fun provideRoomRepository(): RoomRepository {
-        return RoomRepository()
-    }
 }
