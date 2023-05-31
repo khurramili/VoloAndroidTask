@@ -1,9 +1,9 @@
-package com.volo.voloandroidtask.ui.viewmodel.main.dialog
+package com.volo.voloandroidtask.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.volo.voloandroidtask.ui.viewmodel.main.dialog.ConnectDroneViewModel
 import com.volo.voloandroidtask.constants.Constants
+import com.volo.voloandroidtask.viewmodel.ConnectDroneViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule

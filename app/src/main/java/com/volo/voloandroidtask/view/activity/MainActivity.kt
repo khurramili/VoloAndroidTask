@@ -1,10 +1,10 @@
-package com.volo.voloandroidtask.ui.activity
+package com.volo.voloandroidtask.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import com.volo.voloandroidtask.R
-import com.volo.voloandroidtask.ui.view.main.MainFragment
+import com.volo.voloandroidtask.view.fragments.MainFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

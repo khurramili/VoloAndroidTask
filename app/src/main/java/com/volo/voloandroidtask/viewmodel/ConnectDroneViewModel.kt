@@ -1,4 +1,4 @@
-package com.volo.voloandroidtask.ui.viewmodel.main.dialog
+package com.volo.voloandroidtask.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

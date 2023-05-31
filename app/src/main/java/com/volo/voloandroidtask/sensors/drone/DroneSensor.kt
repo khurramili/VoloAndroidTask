@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.volo.voloandroidtask.model.Drone
 import javax.inject.Inject
 
-class DroneSensors @Inject constructor(): DroneListeners{
+class DroneSensor @Inject constructor(): DroneListeners{
 
     var drone: MutableLiveData<Drone?> = MutableLiveData(Drone(0f,0f,0f))
 

@@ -1,4 +1,4 @@
-package com.volo.voloandroidtask.ui.view.main
+package com.volo.voloandroidtask.view.fragments
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -12,9 +12,9 @@ import com.volo.voloandroidtask.R
 import com.volo.voloandroidtask.databinding.FragmentMainBinding
 import com.volo.voloandroidtask.sensors.gyroscope.GyroscopeSensor
 import com.volo.voloandroidtask.sensors.gyroscope.MovementListener
-import com.volo.voloandroidtask.ui.view.main.dialog.ConnectDrone
-import com.volo.voloandroidtask.ui.viewmodel.main.dialog.ConnectDroneViewModel
-import com.volo.voloandroidtask.ui.viewmodel.main.MainViewModel
+import com.volo.voloandroidtask.view.dialog.ConnectDrone
+import com.volo.voloandroidtask.viewmodel.ConnectDroneViewModel
+import com.volo.voloandroidtask.viewmodel.MainViewModel
 import com.volo.voloandroidtask.utils.SoundUtil
 import com.volo.voloandroidtask.constants.Constants
 import dagger.hilt.android.AndroidEntryPoint

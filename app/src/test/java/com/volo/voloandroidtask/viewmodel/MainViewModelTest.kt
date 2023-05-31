@@ -1,10 +1,9 @@
-package com.volo.voloandroidtask.ui.viewmodel.main
+package com.volo.voloandroidtask.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
-import com.volo.voloandroidtask.model.Drone
 import com.volo.voloandroidtask.model.Room
-import com.volo.voloandroidtask.sensors.drone.DroneSensors
+import com.volo.voloandroidtask.sensors.drone.DroneSensor
+import com.volo.voloandroidtask.viewmodel.MainViewModel
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
@@ -21,18 +20,14 @@ class MainViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var droneSensors: DroneSensors
-
-    @Mock
-    private lateinit var droneObserver: Observer<Drone?>
-
+    private lateinit var droneSensor: DroneSensor
     private lateinit var viewModel: MainViewModel
 
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        viewModel = MainViewModel(droneSensors)
+        viewModel = MainViewModel(droneSensor)
     }
 
     @Test
@@ -55,6 +50,6 @@ class MainViewModelTest {
         viewModel.initalizeDrone(droneX, droneY, droneZ)
 
         // Verify that the setDroneCurrentPoistion method is called with the correct parameters
-        verify(droneSensors).setDroneCurrentPoistion(droneX, droneY, droneZ)
+        verify(droneSensor).setDroneCurrentPoistion(droneX, droneY, droneZ)
     }
 }

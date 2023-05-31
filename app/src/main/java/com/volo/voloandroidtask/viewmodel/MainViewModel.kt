@@ -1,11 +1,11 @@
-package com.volo.voloandroidtask.ui.viewmodel.main
+package com.volo.voloandroidtask.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.volo.voloandroidtask.model.Drone
 import com.volo.voloandroidtask.model.Room
-import com.volo.voloandroidtask.sensors.drone.DroneSensors
+import com.volo.voloandroidtask.sensors.drone.DroneSensor
 import com.volo.voloandroidtask.sensors.gyroscope.MovementListener
 import com.volo.voloandroidtask.constants.Constants
 import com.volo.voloandroidtask.utils.CollisionUtil
@@ -13,7 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val droneSensors: DroneSensors) :
+class MainViewModel @Inject constructor(private val droneSensor: DroneSensor) :
     ViewModel() {
 
     val isDroneConnected: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -21,7 +21,7 @@ class MainViewModel @Inject constructor(private val droneSensors: DroneSensors) 
     val isCollided: MutableLiveData<Boolean> = MutableLiveData(false)
 
     var room: Room? = null
-    var drone: LiveData<Drone?> = droneSensors.drone
+    var drone: LiveData<Drone?> = droneSensor.drone
 
     lateinit var movementListener: MovementListener
 
@@ -30,7 +30,7 @@ class MainViewModel @Inject constructor(private val droneSensors: DroneSensors) 
     }
 
     fun initalizeDrone(droneX: Float, droneY: Float, droneZ: Float) {
-        droneSensors.setDroneCurrentPoistion(droneX, droneY, droneZ)
+        droneSensor.setDroneCurrentPoistion(droneX, droneY, droneZ)
     }
 
     fun moveDrone(x: Float, y: Float, z: Float) {
@@ -45,7 +45,7 @@ class MainViewModel @Inject constructor(private val droneSensors: DroneSensors) 
             isCollided.value = true
         } else {
             isCollided.value = false
-            droneSensors.moveDrone(posX, posY, posZ)
+            droneSensor.moveDrone(posX, posY, posZ)
         }
     }
 
@@ -59,7 +59,7 @@ class MainViewModel @Inject constructor(private val droneSensors: DroneSensors) 
             isCollided.value = true
         } else {
             isCollided.value = false
-            updatedRight?.let { droneSensors.moveDrone(it, drone.value!!.y, drone.value!!.z) }
+            updatedRight?.let { droneSensor.moveDrone(it, drone.value!!.y, drone.value!!.z) }
             movementListener.updatedAxis(0.1f, 0f, 0f)
         }
     }
@@ -70,7 +70,7 @@ class MainViewModel @Inject constructor(private val droneSensors: DroneSensors) 
             isCollided.value = true
         } else {
             isCollided.value = false
-            updatedLeft?.let { droneSensors.moveDrone(it, drone.value!!.y, drone.value!!.z) }
+            updatedLeft?.let { droneSensor.moveDrone(it, drone.value!!.y, drone.value!!.z) }
             movementListener.updatedAxis(-0.1f, 0f, 0f)
         }
     }
@@ -81,7 +81,7 @@ class MainViewModel @Inject constructor(private val droneSensors: DroneSensors) 
             isCollided.value = true
         } else {
             isCollided.value = false
-            updateUp?.let { droneSensors.moveDrone(drone.value!!.x, it, drone.value!!.z) }
+            updateUp?.let { droneSensor.moveDrone(drone.value!!.x, it, drone.value!!.z) }
             movementListener.updatedAxis(0f, -0.1f, 0f)
         }
 
@@ -93,7 +93,7 @@ class MainViewModel @Inject constructor(private val droneSensors: DroneSensors) 
             isCollided.value = true
         } else {
             isCollided.value = false
-            updateDown?.let { droneSensors.moveDrone(drone.value!!.x, it, drone.value!!.z) }
+            updateDown?.let { droneSensor.moveDrone(drone.value!!.x, it, drone.value!!.z) }
             movementListener.updatedAxis(0f, 0.1f, 0f)
         }
     }

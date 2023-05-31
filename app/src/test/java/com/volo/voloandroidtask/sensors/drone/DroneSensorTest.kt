@@ -8,16 +8,16 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 
 
-class DroneSensorsTest {
+class DroneSensorTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var repository: DroneSensors
+    private lateinit var repository: DroneSensor
 
     @Before
     fun setup() {
-        repository = DroneSensors()
+        repository = DroneSensor()
     }
 
     @Test

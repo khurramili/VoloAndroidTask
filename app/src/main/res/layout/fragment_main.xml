@@ -8,14 +8,14 @@
 
         <variable
             name="mainViewModel"
-            type="com.volo.voloandroidtask.ui.viewmodel.main.MainViewModel" />
+            type="com.volo.voloandroidtask.viewmodel.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.view.main.MainFragment">
+        tools:context=".view.fragments.MainFragment">
 
         <View
             android:id="@+id/alertView"

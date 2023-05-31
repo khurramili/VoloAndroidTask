@@ -1,10 +1,10 @@
-package com.volo.voloandroidtask.ui.view.main.dialog
+package com.volo.voloandroidtask.view.dialog
 
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import com.volo.voloandroidtask.databinding.ConnectDroneDialogBinding
-import com.volo.voloandroidtask.ui.viewmodel.main.dialog.ConnectDroneViewModel
+import com.volo.voloandroidtask.viewmodel.ConnectDroneViewModel
 
 class ConnectDrone(private val context: Context, private val viewModel: ConnectDroneViewModel) {
     private lateinit var dialog: AlertDialog
